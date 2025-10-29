@@ -22,4 +22,21 @@ def generate_dataset(n_samples: int = 1000, seed: int = 42) -> np.ndarray:
 
     return data
 
-print(generate_dataset())
+
+def explore_data(data: np.ndarray) -> dict:
+
+    stats = {}
+    stats['sum'] = np.sum(data, axis=0)
+    stats['mean'] = np.mean(data, axis=0)
+    stats['std'] = np.std(data, axis=0)
+    stats['min'] = np.min(data, axis=0)
+    stats['max'] = np.max(data, axis=0)
+    stats['median'] = np.median(data, axis=0)
+
+
+    stats['q25'] = np.percentile(data, 25, axis=0)
+    stats['q75'] = np.percentile(data, 75, axis=0)
+    return stats
+
+print(explore_data([1000000000,5000,10000,2000,3000,4000,900000,900000000])['q75'])
+
