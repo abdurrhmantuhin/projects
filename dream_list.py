@@ -42,33 +42,36 @@ while True:
 
         elif number_selection == 3:
             try:
-                with open("Dream.json","r") as dreamss:
+                with open("Dream.json", "r") as dreamss:
                     dream_list = dict(json.load(dreamss))
-
-
+           
+                    
+                    if not dream_list:
+                        print("\n😴 You don't have any dreams saved yet!")
+                        continue  
+                       
                     print("\n🌙 Your Dream List:")
-                    print("="*50)
+                    print("=" * 50)
                     for key, value in dream_list.items():
                         print(f"✨ {key}: {value}\n")
-                    print("="*50,"\n")
-
-
-                    remove_key = int(input("\n📝 enter the number wich one you want to remove frome the list: "))
+                    print("=" * 50, "\n")
+           
+                    remove_key = int(input("\n📝 Enter the dream number you want to remove: "))
                     dream_key = f"Dream_no_{remove_key}"
-
+           
                 if dream_key in dream_list:
                     del dream_list[dream_key]
-                    print(f"\n❌ Removed {remove_key} successfully!")
-
+                    print(f"\n❌ Removed Dream {remove_key} successfully!")
+           
                 else:
                     print("⚠️ Dream not found!")
+           
+                with open("Dream.json", "w") as files:
+                    json.dump(dream_list, files, indent=4)
 
-                
-                with open("Dream.json","w") as files:
-                    json.dump(dream_list,files, indent=4)
- 
             except FileNotFoundError:
-                print("please first make a dream list")
+                print("\n❌ You don't have a dream list yet! Please add one first.")
+
 
 
         elif number_selection == 4:
