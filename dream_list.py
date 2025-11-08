@@ -13,28 +13,36 @@ while True:
         number_selection = int(input("\n📋 Select a number between (1-4): "))
 
         if number_selection == 1:
-            user_input = input("\nWhat's your Dream❓: ")
+            itss_true = True
+            while itss_true:
+                user_input = input("\nWhat's your Dream❓(write your dream or enter exit): ")
 
-            try:
-                with open("Dream.json", "r") as dream_file:
-                    dream_list = json.load(dream_file)
-            except (FileNotFoundError, json.JSONDecodeError):
-                dream_list = {}
+                if user_input.lower() == 'exit':
+                    itss_true = False
+                else:    
+                    try:
+                        with open("Dream.json", "r") as dream_file:
+                            dream_list = json.load(dream_file)
+                    except (FileNotFoundError, json.JSONDecodeError):
+                        dream_list = {}
 
-            dream_no = f"Dream_no_{len(dream_list) + 1}"
-            dream_list[dream_no] = user_input
+                    dream_no = f"Dream_no_{len(dream_list) + 1}"
+                    dream_list[dream_no] = user_input
 
-            with open("Dream.json", "w") as dream_file:
-                json.dump(dream_list, dream_file, indent=4)
+                    with open("Dream.json", "w") as dream_file:
+                        json.dump(dream_list, dream_file, indent=4)
 
-            print(f"\n✅ Successfully added your Dream in list: {user_input}\n")
+                    print(f"\n✅ Successfully added your Dream in list: {user_input}\n")
 
 
         elif number_selection == 2:
             try:
                 with open("Dream.json","r") as dream:
                     dreams = dict(json.load(dream))
-                    print(f"\nYour Dreams are:\n{", ".join(dreams.values())}")
+
+                    for key, value in dreams.items():
+                        print(f"✨ {key}: {value}\n")
+                    print("=" * 50, "\n")
 
             except (FileNotFoundError):
                 print(f"\n❌ there was no file. please first make a Dream list❗\n")
@@ -45,15 +53,16 @@ while True:
                 with open("Dream.json", "r") as dreamss:
                     dream_list = dict(json.load(dreamss))
            
-                    
                     if not dream_list:
                         print("\n😴 You don't have any dreams saved yet!")
                         continue  
                        
                     print("\n🌙 Your Dream List:")
                     print("=" * 50)
+
                     for key, value in dream_list.items():
                         print(f"✨ {key}: {value}\n")
+                        
                     print("=" * 50, "\n")
            
                     remove_key = int(input("\n📝 Enter the dream number you want to remove: "))
