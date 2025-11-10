@@ -39,10 +39,13 @@ while True:
             try:
                 with open("Dream.json","r") as dream:
                     dreams = dict(json.load(dream))
-
-                    for key, value in dreams.items():
-                        print(f"✨ {key}: {value}\n")
-                    print("=" * 50, "\n")
+                    if not dreams :
+                        print("\n😴 You don't have any dreams saved yet!")
+                        
+                    else:
+                        for key, value in dreams.items():
+                            print(f"✨ {key}: {value}\n")
+                        print("=" * 50, "\n")
 
             except (FileNotFoundError):
                 print(f"\n❌ there was no file. please first make a Dream list❗\n")
@@ -65,18 +68,38 @@ while True:
                         
                     print("=" * 50, "\n")
            
-                    remove_key = int(input("\n📝 Enter the dream number you want to remove: "))
-                    dream_key = f"Dream_no_{remove_key}"
+                    remove_key = input("\n📝 Enter the dream number you want to remove: ")
+
+                    if ',' in remove_key:
+                        removed = remove_key.strip().split(',')
+                        for r in removed:
+                            dream_key = f"Dream_no_{int(r)}"
+
+                            if dream_key in dream_list:
+                                del dream_list[dream_key]
+                                print(f"\n✅ Removed Dream {r} successfully!")
            
-                if dream_key in dream_list:
-                    del dream_list[dream_key]
-                    print(f"\n❌ Removed Dream {remove_key} successfully!")
+                            else:
+                                print("⚠️ Dream not found!")
+                       
+                            with open("Dream.json", "w") as files:
+                                json.dump(dream_list, files, indent=4)
+            
+                    else:
+                        removed = remove_key.strip().split(' ')
+                        for r in removed:
+                            dream_key = f"Dream_no_{int(r)}"
+
+                            if dream_key in dream_list:
+                                del dream_list[dream_key]
+                                print(f"\n✅ Removed Dream {r} successfully!")
            
-                else:
-                    print("⚠️ Dream not found!")
-           
-                with open("Dream.json", "w") as files:
-                    json.dump(dream_list, files, indent=4)
+                            else:
+                                print("⚠️ Dream not found!")
+                       
+                            with open("Dream.json", "w") as files:
+                                json.dump(dream_list, files, indent=4)
+            
 
             except FileNotFoundError:
                 print("\n❌ You don't have a dream list yet! Please add one first.")
